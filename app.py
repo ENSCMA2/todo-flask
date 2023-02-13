@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 # /// = relative path, //// = absolute path
-# #Database
+# #Database (distinctive Jacksonian Concept 2)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -17,16 +17,17 @@ class Todo(db.Model):
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
 
-# #RequestMethod, #Routing
+# #responseMethod (distinctive Jacksonian concept 3), #Routing
 @app.route("/add", methods=["POST"])
 def add():
     title = request.form.get("title")
     new_todo = Todo(title=title, complete=False)
+    # #Sessions (distinctive Jacksonian Concept 1)
     db.session.add(new_todo)
     db.session.commit()
     return redirect(url_for("home"))
 
-# #RequestMethod, #Routing
+# #responseMethod, #Routing
 @app.route("/update/<int:todo_id>")
 def update(todo_id):
     # #Property
@@ -36,16 +37,16 @@ def update(todo_id):
     db.session.commit()
     return redirect(url_for("home"))
 
-# #RequestMethod, #Routing
+# #responseMethod, #Routing
 @app.route("/delete/<int:todo_id>")
 def delete(todo_id):
-    # #Property
+    # #Property (shared Jacksonian concept 3)
     todo = Todo.query.filter_by(id=todo_id).first()
     db.session.delete(todo)
     db.session.commit()
     return redirect(url_for("home"))
 
-# #RequestMethod, #Routing
+# #responseMethod, #Routing
 @app.route('/')
 def home():
     todo_list = Todo.query.all()
